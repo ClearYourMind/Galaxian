@@ -21,12 +21,17 @@
     <scripts name="bugs">
       <script>scripts\sc_bug_die.gml</script>
     </scripts>
+    <scripts name="gui">
+      <script>scripts\sc_gui_update.gml</script>
+      <script>scripts\sc_gui_show_message.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fn_default</font>
   </fonts>
   <objects name="objects">
     <object>objects\ob_master</object>
+    <object>objects\ob_gui</object>
     <object>objects\ob_ship</object>
     <object>objects\ob_field</object>
     <object>objects\ob_shot</object>

@@ -75,8 +75,11 @@ sc_init_stage()
           <argument>
             <kind>1</kind>
             <string>///
-if lives&gt;0
-    ob_master.alarm[0] = 100
+if lives&gt;0 {
+    // respawn
+    ob_master.alarm[0] = 200
+    sc_gui_show_message("READY", 60, 90)
+}
 
 with instance_create(x, y, ob_explosion_bug) {
     image_xscale = 2

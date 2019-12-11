@@ -91,71 +91,44 @@ image_speed = 0.05
 var _ok = false
 
 if instance_exists(ob_ship)
-if instance_number(ob_bug) &gt; 0
-if instance_number(ob_bug_attack) &lt; floor(stage_max_attack) {
-    var _lr_side = (random(10) &gt; 5)
-    var i_start, i_if, i_inc
-    if not _lr_side {
-        _lr_side = 1
-        i_start = 0
-    } else {
-        _lr_side = -1
-        i_start = field_w-1
-    }
-    i_inc = _lr_side
-    for (var i=i_start; i&lt;field_w and i&gt;=0; i+=i_inc)
-    if not _ok {
-        for (var j=0; j&lt;field_h; j++) 
-        if ds_grid_get(field, i,j) &gt; 0 {
-            with ds_grid_get(field, i,j)
-            with instance_create(x,y, ob_bug_attack) {
-                cell_x = other.cell_x
-                cell_y = other.cell_y
-                side = _lr_side
-            }
-            ds_grid_set(field, i,j, noone)
-            sc_field_update()
-            _ok = true
-            break
+if instance_number(ob_bug) &gt; 0 {
+    if instance_number(ob_bug_attack) &lt; floor(stage_max_attack) {
+        var _lr_side = (random(10) &gt; 5)
+        var i_start, i_if, i_inc
+        if not _lr_side {
+            _lr_side = 1
+            i_start = 0
+        } else {
+            _lr_side = -1
+            i_start = field_w-1
         }
-    } else
-        break
-
-    // timer for next attack
-    stage_min_pause *= 0.99
-    stage_max_pause *= 0.99
-    stage_max_attack *= 1.01
-        
-}
-
-
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Check for wave clear
-
-if instance_number(ob_bug) = 0
-    ob_master.alarm[1] = 200
-else
+        i_inc = _lr_side
+        for (var i=i_start; i&lt;field_w and i&gt;=0; i+=i_inc)
+        if not _ok {
+            for (var j=0; j&lt;field_h; j++) 
+            if ds_grid_get(field, i,j) &gt; 0 {
+                with ds_grid_get(field, i,j)
+                with instance_create(x,y, ob_bug_attack) {
+                    cell_x = other.cell_x
+                    cell_y = other.cell_y
+                    side = _lr_side
+                }
+                ds_grid_set(field, i,j, noone)
+                sc_field_update()
+                _ok = true
+                break
+            }
+        } else
+            break
+    
+        // timer for next attack
+        stage_min_pause *= 0.99
+        stage_max_pause *= 0.99
+        stage_max_attack *= 1.01
+            
+    }
     alarm[0] = random_range(stage_min_pause, stage_max_pause)
+}
 
 
 </string>
@@ -265,7 +238,7 @@ if view_current = 2 {
     if counter mod 2 = 0
     for (var i=0; i&lt;sf_star_count; i++)
     if surface_exists(sf_star[i]) {
-        star_y[i] = (star_y[i] + 0.5 / (1 + 0.125*i)) mod view_hview[0]
+        star_y[i] = (star_y[i] + 0.75 / (1 + 0.125*i)) mod view_hview[0]
         draw_surface(sf_star[i], 0, star_y[i] - view_hview[0])
         draw_surface(sf_star[i], 0, star_y[i])
     }
