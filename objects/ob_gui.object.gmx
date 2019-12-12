@@ -28,7 +28,7 @@
             <string>///
 
 x = view_wview[0] * 0.5
-y = view_hview[0] * 0.75
+//y = view_hview[0] * 0.75
 
 str_message = ""
 x_message = x
@@ -63,7 +63,7 @@ message_visible = false
 
 str_message = ""
 message_visible = false
-sc_gui_update()
+//sc_gui_update()
 
 </string>
           </argument>
@@ -89,7 +89,8 @@ sc_gui_update()
             <kind>1</kind>
             <string>/// Show message with delay
 
-sc_gui_show_message(str_message)
+//sc_gui_show_message(str_message)
+message_visible = true
 sc_gui_update()
 
 </string>
@@ -117,7 +118,7 @@ sc_gui_update()
             <string>/// Update
 
 str_score = string_repeat("0", 5-string_length(string(score)) ) + string(score)
-x_message = (view_wview[0] - string_width(str_message)) * 0.5
+x_message = (view_wview[0] - string_width(str_message)*0.8) * 0.5
 
 
 </string>

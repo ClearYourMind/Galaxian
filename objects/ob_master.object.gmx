@@ -70,13 +70,10 @@ globalvar stage_max_pause;
 globalvar lives_added;
 globalvar score_for_live;
 lives_added = 0
-score_for_live = 5000
+score_for_live = 10000
 
 lives = 2
 stage = 1
-
-//globalvar str_score;
-
 
 sc_field_fill()
 sc_field_update()
@@ -134,6 +131,9 @@ sc_field_update()
           <argument>
             <kind>1</kind>
             <string>/// respawn
+
+if lives &lt;= 0
+    exit
 
 if instance_number(ob_bug_attack) = 0
     instance_create(max_x*0.5, ship_y, ob_ship)

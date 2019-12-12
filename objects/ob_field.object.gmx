@@ -238,7 +238,7 @@ if view_current = 2 {
     if counter mod 2 = 0
     for (var i=0; i&lt;sf_star_count; i++)
     if surface_exists(sf_star[i]) {
-        star_y[i] = (star_y[i] + 0.75 / (1 + 0.125*i)) mod view_hview[0]
+        star_y[i] = (star_y[i] + 0.75 / (1 + 1.5*i)) mod view_hview[0]
         draw_surface(sf_star[i], 0, star_y[i] - view_hview[0])
         draw_surface(sf_star[i], 0, star_y[i])
     }

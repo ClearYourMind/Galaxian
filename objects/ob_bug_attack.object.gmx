@@ -149,7 +149,7 @@ sc_bug_die()
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///
+            <string>/// RETURN
 
 if instance_number(ob_bug)&gt;=7
     instance_change(ob_bug_return, true)
@@ -160,8 +160,11 @@ if instance_exists(ob_ship) {
     x = random(view_wview[0] * 0.75) + view_wview[0] * 0.125
     direction = point_direction(x, y, ob_ship.x, ob_ship.y)
     image_angle = direction + 270
+    coeff = random(2.5)+0.5
+    
+    side = choose(-1, 1) // + / -
     phase = bug_ph.attack_process
-    speed *= 1.05
+    speed = min(speed * 1.05, 2)
 } else 
     instance_change(ob_bug_return, true)
 
@@ -188,7 +191,7 @@ if instance_exists(ob_ship) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// 
+            <string>/// DIE
 
 event_inherited()
 score += 75
