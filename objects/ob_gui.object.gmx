@@ -149,16 +149,23 @@ if view_current = 2 {
    
     draw_text_transformed(40, 2, str_score, 0.8, 0.8, 0)
 
-    draw_sprite(sp_bug1, 0, 5, 180-10)
-    draw_text_transformed(9, 180-13, string(instance_number(ob_bug_attack)) + "/" + string(floor(stage_max_attack)), 0.8, 0.8, 0)
-    draw_text_transformed(9, 180-7 , string(floor(stage_min_pause)), 0.8, 0.8, 0)
-    
     draw_sprite(sp_ship, 0, 90, 4)
     draw_text_transformed(98, 2, "x"+string(lives), 0.8, 0.8, 0)
     
     // message
     if message_visible
         draw_text_transformed(x_message, y, str_message, 0.8, 0.8, 0)
+        
+    // debug
+/*
+    draw_sprite(sp_bug1, 0, 5, 180-10)
+    draw_text_transformed(9, 180-13, string(instance_number(ob_bug_attack)) + "/" + string(floor(stage_max_attack)), 0.8, 0.8, 0)
+    draw_text_transformed(9, 180-7 , string(floor(stage_min_pause)), 0.8, 0.8, 0)
+    
+    draw_text_transformed(70, 180-19, "MIN=" + string(floor(ob_field.offset_min)), 0.8, 0.8, 0)
+    draw_text_transformed(70, 180-13, "MAX=" + string(floor(ob_field.offset_max)), 0.8, 0.8, 0)
+    draw_text_transformed(70, 180-7 , "X  =" + string(floor(ob_field.x)), 0.8, 0.8, 0)
+*/
 }
 
 </string>

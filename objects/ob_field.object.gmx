@@ -93,16 +93,23 @@ var _ok = false
 if instance_exists(ob_ship)
 if instance_number(ob_bug) &gt; 0 {
     if instance_number(ob_bug_attack) &lt; floor(stage_max_attack) {
-        var _lr_side = (random(10) &gt; 5)
-        var i_start, i_if, i_inc
-        if not _lr_side {
-            _lr_side = 1
-            i_start = 0
-        } else {
-            _lr_side = -1
-            i_start = field_w-1
+        var _side_ok = false
+        while not _side_ok {
+            var _lr_side = (random(10) &gt; 5)
+            var i_start, i_if, i_inc
+            if not _lr_side {
+                _lr_side = 1
+                i_start = 0
+                if abs(x-offset_min) &gt; field_step_x * 2
+                    _side_ok = true
+            } else {
+                _lr_side = -1
+                i_start = field_w-1
+                if abs(offset_max-x) &gt; field_step_x * 2
+                    _side_ok = true
+            }
+            i_inc = _lr_side
         }
-        i_inc = _lr_side
         for (var i=i_start; i&lt;field_w and i&gt;=0; i+=i_inc)
         if not _ok {
             for (var j=0; j&lt;field_h; j++) 
@@ -155,16 +162,25 @@ if instance_number(ob_bug) &gt; 0 {
             <kind>1</kind>
             <string>/// Move
 
-if x &gt; offset_max {
-    x = offset_max
-    speed = -speed
-} 
-if x &lt; offset_min {
-    x = offset_min
-    speed = -speed
-} 
+if x &gt; offset_max and speed &gt; 0 
+    speed = -offset_speed
 
-view_xport[1] = x * 5
+if x &lt; offset_min and speed &lt; 0 
+    speed = offset_speed
+
+view_wview[1] = min(
+    field_w * field_step_x,
+    field_w * field_step_x + x,
+    view_wview[0] - x 
+)
+view_xview[1] = max_x * 2 - min(0, x)
+
+view_wport[1] = view_wview[1] * 5
+view_xport[1] = clamp(x * 5, 0, view_wview[0]*5 -view_wport[1])
+//view_wport[1] = view_wview[1]
+//view_xport[1] = clamp(x , 0, view_wview[0] -view_wport[1])
+
+
 
 </string>
           </argument>
@@ -198,7 +214,7 @@ with ob_shot_friendly {
         var _cell_y = _y div field_step_y
         var _bug = ds_grid_get(field, _cell_x, _cell_y)
         if _bug &gt; 0
-        if instance_place(_x + view_xview[1], _y, _bug) {
+        if instance_place(_x + max_x * 2, _y, _bug) {
             ds_grid_set(field, _cell_x, _cell_y, noone)
             with _bug
                 sc_bug_die()
@@ -233,6 +249,7 @@ with ob_shot_friendly {
           <argument>
             <kind>1</kind>
             <string>/// stars
+
 if view_current = 2 {
     counter++
     if counter mod 2 = 0

@@ -38,7 +38,6 @@ globalvar field_w;
 globalvar field_h;
 globalvar field_step_x;
 globalvar field_step_y;
-field_step_y = 8
 field_w = 7
 field_h = 5
 field_step_x = 10
@@ -72,7 +71,7 @@ globalvar score_for_live;
 lives_added = 0
 score_for_live = 10000
 
-lives = 2
+lives = 50
 stage = 1
 
 sc_field_fill()
@@ -107,6 +106,7 @@ sc_init_stage()
 sc_field_fill()
 sc_field_update()
 
+ob_field.x = random(ob_field.offset_max)
 
 </string>
           </argument>

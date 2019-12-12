@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>///
 
-x = x - view_xview[1] + ob_field.x
+x = x - max_x * 2 + ob_field.x
 y = y + ob_field.y
 oy = y
 d_angle = 0
