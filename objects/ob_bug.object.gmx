@@ -32,6 +32,8 @@ cell_y = 0
 kind = ob_bug
 image_speed = 0
 
+side = 0
+
 </string>
           </argument>
         </arguments>

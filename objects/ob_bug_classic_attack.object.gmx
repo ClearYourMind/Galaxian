@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>ob_bug</parentName>
+  <parentName>ob_bug_attack</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -27,26 +27,8 @@
             <kind>1</kind>
             <string>///
 
-x = x - max_x * 2 + ob_field.x
-y = y + ob_field.y
-oy = y
-d_angle = 0
-angle = 0
-coeff = random(2.5)+0.5
-tgX = ob_ship.x
-tgY = ob_ship.y
-
-side = 0 // + / -
-phase = bug_ph.flyout_start
-
-enum bug_ph {
-    flyout_start,
-    flyout_process,
-    attack_process
-}
-
-image_speed = 0
-image_index = 0
+event_perform_object(ob_bug_classic, ev_create, 0)
+event_inherited()
 
 </string>
           </argument>
@@ -71,119 +53,11 @@ image_index = 0
           <argument>
             <kind>1</kind>
             <string>///
-switch phase {
-case bug_ph.flyout_start:
-    speed = 1
-    direction = 90
-    d_angle = 6 * side
-    phase = bug_ph.flyout_process
-break
-case bug_ph.flyout_process:
-    direction += d_angle
-    if abs(angle_difference(direction, 270)) &lt; abs(d_angle*1.5)
-        phase = bug_ph.attack_process
-break
-case bug_ph.attack_process:
-        var _dx = tgX - x
-        var _dy = abs(y - oy);
-        _dx += (tgY - y) * side * coeff * 0.25
-        var _appx = _dy / abs(tgY - oy)
-        
-        var _x = x + _dx * _appx * coeff;
-        var _y = tgY//+ 30
-        
-        if tgY-y &gt; 16   // if bug is not very close
-            direction = point_direction(x, y, _x, _y)
-break
-}
 
-image_angle = direction + 270
+event_perform_object(ob_bug_classic, ev_step, ev_step_normal)
+event_inherited()
 
 </string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="4" ename="ob_shot_friendly">
-      <action>
-        <libid>1</libid>
-        <id>601</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_execute_script</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>9</kind>
-            <script>sc_bug_die</script>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="40">
-      <action>
-        <libid>1</libid>
-        <id>601</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_execute_script</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>9</kind>
-            <script>sc_bug_return</script>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string></string>
           </argument>
         </arguments>
       </action>
@@ -208,23 +82,22 @@ image_angle = direction + 270
             <string>/// RETURN
 
 if instance_number(ob_bug)&gt;=7
-    instance_change(ob_bug_return, true)
+    instance_change(ob_bug_classic_return, true)
 else 
 if instance_exists(ob_ship) {
     y = 1
     oy = y
-    tgX = ob_ship.x
-    tgY = ob_ship.y
     x = random(view_wview[0] * 0.75) + view_wview[0] * 0.125
     direction = point_direction(x, y, ob_ship.x, ob_ship.y)
     image_angle = direction + 270
     coeff = random(2.5)+0.5
-    
+    tgX = ob_ship.x
+    tgY = ob_ship.y
     side = choose(-1, 1) // + / -
     phase = bug_ph.attack_process
     speed = min(speed * 1.05, 2)
 } else 
-    instance_change(ob_bug_return, true)
+    instance_change(ob_bug_classic_return, true)
 
 
 </string>
@@ -232,7 +105,7 @@ if instance_exists(ob_ship) {
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="10">
+    <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -249,10 +122,11 @@ if instance_exists(ob_ship) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// DIE
+            <string>///
 
 event_inherited()
-score += 75
+event_perform_object(ob_bug_classic, ev_draw, 0)
+
 
 </string>
           </argument>

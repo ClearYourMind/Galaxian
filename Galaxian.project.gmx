@@ -8,6 +8,7 @@
   <sprites name="sprites">
     <sprite>sprites\sp_ship</sprite>
     <sprite>sprites\sp_bug1</sprite>
+    <sprite>sprites\sp_bug_classic_eyes</sprite>
     <sprite>sprites\sp_shot</sprite>
     <sprite>sprites\sp_star</sprite>
     <sprite>sprites\sp_explosion_bug</sprite>
@@ -20,6 +21,8 @@
     <script>scripts\sc_init_stage.gml</script>
     <scripts name="bugs">
       <script>scripts\sc_bug_die.gml</script>
+      <script>scripts\sc_bug_return.gml</script>
+      <script>scripts\sc_bug_attack.gml</script>
     </scripts>
     <scripts name="gui">
       <script>scripts\sc_gui_update.gml</script>
@@ -41,6 +44,12 @@
       <object>objects\ob_bug_attack</object>
       <object>objects\ob_bug_order</object>
       <object>objects\ob_bug_return</object>
+      <objects name="bug_classic">
+        <object>objects\ob_bug_classic</object>
+        <object>objects\ob_bug_classic_attack</object>
+        <object>objects\ob_bug_classic_order</object>
+        <object>objects\ob_bug_classic_return</object>
+      </objects>
     </objects>
     <object>objects\ob_explosion_bug</object>
   </objects>

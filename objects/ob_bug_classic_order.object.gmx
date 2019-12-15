@@ -5,9 +5,63 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>ob_bug</parentName>
+  <parentName>ob_bug_order</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///
+
+event_perform_object(ob_bug_classic, ev_create, 0)
+event_inherited()
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///
+
+event_perform_object(ob_bug_classic, ev_step, ev_step_normal)
+event_inherited()
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="12">
       <action>
         <libid>1</libid>
@@ -27,43 +81,13 @@
             <kind>1</kind>
             <string>/// ATTACK
 
-with instance_create(x,y, ob_bug_attack) {
+with instance_create(x,y, ob_bug_classic_attack) {
     cell_x = other.cell_x
     cell_y = other.cell_y
     side = other.side
 }
 ds_grid_set(field, cell_x, cell_y, noone)
 sc_field_update()
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="10">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// DIE
-
-x = x - view_xview[1] + ob_field.x
-y = y + ob_field.y
-
-event_inherited()
-score += 50
 
 </string>
           </argument>
@@ -89,19 +113,8 @@ score += 50
             <kind>1</kind>
             <string>///
 
-image_index = ob_field.image_index
-if cell_x mod 2 = 0
-    image_index = (image_index + 2) mod ob_field.image_number
-
-    
-if image_index &gt; 2
-    image_xscale = -1
-else
-    image_xscale = 1
-
 event_inherited()
-//draw_self()
-
+event_perform_object(ob_bug_classic, ev_draw, 0)
 
 </string>
           </argument>

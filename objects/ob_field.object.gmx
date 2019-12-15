@@ -27,8 +27,6 @@
             <kind>1</kind>
             <string>///
 
-counter = 0
-
 offset_speed = 0.1
 speed = offset_speed
 offset_max = max_x - field_w * field_step_x
@@ -114,14 +112,10 @@ if instance_number(ob_bug) &gt; 0 {
         if not _ok {
             for (var j=0; j&lt;field_h; j++) 
             if ds_grid_get(field, i,j) &gt; 0 {
-                with ds_grid_get(field, i,j)
-                with instance_create(x,y, ob_bug_attack) {
-                    cell_x = other.cell_x
-                    cell_y = other.cell_y
+                with ds_grid_get(field, i,j) {
                     side = _lr_side
+                    sc_bug_attack()
                 }
-                ds_grid_set(field, i,j, noone)
-                sc_field_update()
                 _ok = true
                 break
             }
@@ -251,7 +245,6 @@ with ob_shot_friendly {
             <string>/// stars
 
 if view_current = 2 {
-    counter++
     if counter mod 2 = 0
     for (var i=0; i&lt;sf_star_count; i++)
     if surface_exists(sf_star[i]) {

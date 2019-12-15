@@ -1,4 +1,4 @@
 /// sc_bug_return()
 
-instance_change(ob_bug_return, true)
+event_perform(ev_other, ev_user1)
 
