@@ -121,12 +121,7 @@ if instance_number(ob_bug) &gt; 0 {
             }
         } else
             break
-    
-        // timer for next attack
-        stage_min_pause *= 0.99
-        stage_max_pause *= 0.99
-        stage_max_attack *= 1.01
-            
+           
     }
     alarm[0] = random_range(stage_min_pause, stage_max_pause)
 }

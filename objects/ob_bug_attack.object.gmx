@@ -30,6 +30,7 @@
 x = x - max_x * 2 + ob_field.x
 y = y + ob_field.y
 oy = y
+ox = x
 d_angle = 0
 angle = 0
 coeff = random(2.5)+0.5
@@ -42,7 +43,7 @@ phase = bug_ph.flyout_start
 enum bug_ph {
     flyout_start,
     flyout_process,
-    attack_process
+    attack_process,
 }
 
 image_speed = 0
@@ -80,8 +81,10 @@ case bug_ph.flyout_start:
 break
 case bug_ph.flyout_process:
     direction += d_angle
-    if abs(angle_difference(direction, 270)) &lt; abs(d_angle*1.5)
+    if abs(angle_difference(direction, 270)) &lt; abs(d_angle*1.5) {
         phase = bug_ph.attack_process
+        oy = y
+    }
 break
 case bug_ph.attack_process:
         var _dx = tgX - x
@@ -222,7 +225,7 @@ if instance_exists(ob_ship) {
     
     side = choose(-1, 1) // + / -
     phase = bug_ph.attack_process
-    speed = min(speed * 1.05, 2)
+    speed = min(speed * 1.01, 2)
 } else 
     instance_change(ob_bug_return, true)
 

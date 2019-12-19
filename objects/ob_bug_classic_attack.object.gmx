@@ -30,6 +30,11 @@
 event_perform_object(ob_bug_classic, ev_create, 0)
 event_inherited()
 
+amp = (ob_ship.x-x) * 1.25
+amp = max(abs(amp), 40) * sign(amp)
+
+coeff = 1 + (random(2) - 0.5)
+
 </string>
           </argument>
         </arguments>
@@ -54,8 +59,38 @@ event_inherited()
             <kind>1</kind>
             <string>///
 
-event_perform_object(ob_bug_classic, ev_step, ev_step_normal)
-event_inherited()
+switch phase {
+case bug_ph.flyout_start:
+    speed = 1
+    direction = 90
+    d_angle = 6 * side
+    phase = bug_ph.flyout_process
+    image_angle = direction + 270
+break
+case bug_ph.flyout_process:
+    direction += d_angle
+    if abs(angle_difference(direction, 270)) &lt; abs(d_angle*1.5) {
+        phase = bug_ph.attack_process
+        oy = y
+        ox = x
+        direction = 270
+    }
+    image_angle = direction + 270
+break
+case bug_ph.attack_process:
+        var _dx = tgX - x
+        var _dy = abs(y - oy)
+        
+        var _phi = _dy * 0.02 * coeff
+        
+        x = ox + (1 - cos(_phi)) * amp
+        
+        if instance_exists(ob_ship)
+        if tgY-y &gt; 16   // if bug is not very close
+             image_angle = point_direction(x, y, ob_ship.x, ob_ship.y) + 270
+break
+}
+
 
 </string>
           </argument>
@@ -81,23 +116,7 @@ event_inherited()
             <kind>1</kind>
             <string>/// RETURN
 
-if instance_number(ob_bug)&gt;=7
-    instance_change(ob_bug_classic_return, true)
-else 
-if instance_exists(ob_ship) {
-    y = 1
-    oy = y
-    x = random(view_wview[0] * 0.75) + view_wview[0] * 0.125
-    direction = point_direction(x, y, ob_ship.x, ob_ship.y)
-    image_angle = direction + 270
-    coeff = random(2.5)+0.5
-    tgX = ob_ship.x
-    tgY = ob_ship.y
-    side = choose(-1, 1) // + / -
-    phase = bug_ph.attack_process
-    speed = min(speed * 1.05, 2)
-} else 
-    instance_change(ob_bug_classic_return, true)
+instance_change(ob_bug_classic_return, true)
 
 
 </string>
@@ -127,6 +146,7 @@ if instance_exists(ob_ship) {
 event_inherited()
 event_perform_object(ob_bug_classic, ev_draw, 0)
 
+//draw_text_transformed(5, y-5, string(_offset), 0.2, 0.2, 0)
 
 </string>
           </argument>

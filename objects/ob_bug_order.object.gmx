@@ -59,7 +59,7 @@ sc_field_update()
             <kind>1</kind>
             <string>/// DIE
 
-x = x - view_xview[1] + ob_field.x
+x = x - max_x*2 + ob_field.x
 y = y + ob_field.y
 
 event_inherited()

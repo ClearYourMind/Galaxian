@@ -41,6 +41,11 @@ angle = direction + 270
 image_speed = 0 
 image_index = 0
 
+// progress difficulty
+stage_min_pause *= 0.99
+stage_max_pause *= 0.99
+stage_max_attack *= 1.01
+
 </string>
           </argument>
         </arguments>
