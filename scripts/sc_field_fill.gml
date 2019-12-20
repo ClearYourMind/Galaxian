@@ -8,10 +8,10 @@ order[3]= " ##### "
 order[4]= "# ### #"
 
 order[0]= "  0 0  "
-order[1]= "0 000 0"
-order[2]= "0000000"
-order[3]= " 00000 "
-order[4]= "0 000 0"
+order[1]= "# 000 #"
+order[2]= "##000##"
+order[3]= " ##0## "
+order[4]= "# ### #"
 
 ds_grid_clear(field, noone)
 ds_grid_clear(field_objs, noone)

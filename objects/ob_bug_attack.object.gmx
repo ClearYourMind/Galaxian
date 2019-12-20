@@ -78,6 +78,7 @@ case bug_ph.flyout_start:
     direction = 90
     d_angle = 6 * side
     phase = bug_ph.flyout_process
+    image_angle = direction + 270
 break
 case bug_ph.flyout_process:
     direction += d_angle
@@ -85,6 +86,7 @@ case bug_ph.flyout_process:
         phase = bug_ph.attack_process
         oy = y
     }
+    image_angle = direction + 270
 break
 case bug_ph.attack_process:
         var _dx = tgX - x
@@ -95,12 +97,15 @@ case bug_ph.attack_process:
         var _x = x + _dx * _appx * coeff;
         var _y = tgY//+ 30
         
-        if tgY-y &gt; 16   // if bug is not very close
+        if tgY-y &gt; 16 {  // if bug is not very close
             direction = point_direction(x, y, _x, _y)
+            if instance_exists(ob_ship)
+                image_angle = point_direction(x, y, ob_ship.x, ob_ship.y) + 270
+        }
+
 break
 }
 
-image_angle = direction + 270
 
 </string>
           </argument>

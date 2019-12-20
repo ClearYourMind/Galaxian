@@ -7,6 +7,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sp_ship</sprite>
+    <sprite>sprites\sp_ship2</sprite>
     <sprite>sprites\sp_bug1</sprite>
     <sprite>sprites\sp_bug_classic_eyes</sprite>
     <sprite>sprites\sp_shot</sprite>
@@ -33,6 +34,7 @@
   </fonts>
   <objects name="objects">
     <object>objects\ob_master</object>
+    <object>objects\ob_part_master</object>
     <object>objects\ob_gui</object>
     <object>objects\ob_ship</object>
     <object>objects\ob_field</object>
@@ -52,6 +54,7 @@
       </objects>
     </objects>
     <object>objects\ob_explosion_bug</object>
+    <object>objects\ob_particle</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_game</room>
