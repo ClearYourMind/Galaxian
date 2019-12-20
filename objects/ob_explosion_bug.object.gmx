@@ -30,7 +30,6 @@
 image_speed = 0.334
 image_angle = irandom(3)*90
 image_angle2 = irandom(3)*90
-counter = 0
 
 </string>
           </argument>

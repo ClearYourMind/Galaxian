@@ -31,9 +31,44 @@ event_perform_object(ob_bug_classic, ev_create, 0)
 event_inherited()
 
 amp = (ob_ship.x-x) * 1.25
-amp = max(abs(amp), 40) * sign(amp)
 
-coeff = 1 + (random(2) - 0.5)
+coeff = pi*0.5 + (random(1) - 0.5)
+
+shots_done = 0
+shots_max = 3
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// SHOOT
+
+if shots_done &lt; shots_max {
+    shots_done++
+    instance_create(x, y, ob_shot_enemy)
+    alarm[0] = 18
+} else
+    shots_done = 0
+
+    
 
 </string>
           </argument>
@@ -69,13 +104,27 @@ case bug_ph.flyout_start:
 break
 case bug_ph.flyout_process:
     direction += d_angle
-    if abs(angle_difference(direction, 270)) &lt; abs(d_angle*1.5) {
+    image_angle = direction + 270
+    if abs(angle_difference(direction, 270)) &lt;= abs(d_angle*1.5) {
         phase = bug_ph.attack_process
         oy = y
         ox = x
         direction = 270
+        speed = 0.8
+        alarm[0] = 35
+        
+            var _amp = max(abs(amp), 30) * sign(amp)
+            if (x + amp &lt; 0) or (x + amp &gt; view_wview[0]) {
+                if amp &gt; 0
+                    _amp = min(amp, view_wview[0] - x)
+                else 
+                    _amp = - min(abs(amp), x)
+            }
+            amp = max(abs(_amp), 30) * sign(_amp)
+
+            if abs(_amp) &lt; 30
+                amp = - max(abs(_amp), 30) * sign(_amp)
     }
-    image_angle = direction + 270
 break
 case bug_ph.attack_process:
         var _dx = tgX - x
