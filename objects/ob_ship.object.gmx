@@ -30,19 +30,6 @@
 x = max_x div 2
 y = ship_y
 
-enum k {
-    Left,
-    Right,
-    Fire,
-    count
-}
-
-keys[k.count] = false
-
-keyCodes[k.Left ] = vk_left
-keyCodes[k.Right] = vk_right
-keyCodes[k.Fire ] = vk_space
-
 want_fire = false
 fire_done = false
 
@@ -147,8 +134,6 @@ can_fire = true
             <kind>1</kind>
             <string>///
 
-for (var i=0; i&lt;k.count; i++)
-    keys[i] = keyboard_check(keyCodes[i])
     
 if keys[k.Left]
     x = clamp(x-1, 5, max_x-4)

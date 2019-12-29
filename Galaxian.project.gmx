@@ -34,6 +34,8 @@
   </fonts>
   <objects name="objects">
     <object>objects\ob_master</object>
+    <object>objects\ob_control</object>
+    <object>objects\ob_sensor_control</object>
     <object>objects\ob_part_master</object>
     <object>objects\ob_gui</object>
     <object>objects\ob_ship</object>
