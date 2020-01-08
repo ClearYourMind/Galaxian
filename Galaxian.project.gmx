@@ -28,6 +28,7 @@
       <script>scripts\sc_gui_update.gml</script>
       <script>scripts\sc_gui_show_message.gml</script>
     </scripts>
+    <script>scripts\sc_field_create_star_surfaces.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fn_default</font>

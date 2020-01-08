@@ -35,30 +35,23 @@ offset_min = 0
 
 
 // stars
-var _stars_max = 32
-var _stars = array_create(_stars_max)
-for (var i=0; i&lt;_stars_max; i++) {
-    _stars[i] = array_create(2)
-    var star = _stars[i];
+stars_max = 32
+stars = array_create(stars_max)
+for (var i=0; i&lt;stars_max; i++) {
+    stars[i] = array_create(2)
+    var star = stars[i];
     star[@ 0] = random(view_wview[0])
     star[@ 1] = random(view_hview[0])
 }
 
-star_y[4] = 0
-sf_star[0] = surface_create(view_wview[0], view_hview[0])
-sf_star[1] = surface_create(view_wview[0], view_hview[0])
-sf_star[2] = surface_create(view_wview[0], view_hview[0])
-sf_star[3] = surface_create(view_wview[0], view_hview[0])
 sf_star_count = 4
+star_y = array_create(sf_star_count)
+sf_star = array_create(sf_star_count)
 
-    draw_clear_alpha(c_white, 0)
-    for (var i=0; i&lt;_stars_max; i++) {
-        var _sf_index = i div (_stars_max div sf_star_count)
-        surface_set_target(sf_star[_sf_index])
-        var star = _stars[i]
-        draw_point(star[0], star[1])
-        surface_reset_target()
-    }
+for (var i=0; i&lt;sf_star_count; i++) 
+    sf_star[i] = surface_create(view_wview[0], view_hview[0])
+
+sc_field_create_star_surfaces()
 
 image_speed = 0.05
 
@@ -267,12 +260,16 @@ with ob_shot_friendly {
             <string>/// stars
 
 if view_current = 2 {
-    if counter mod 2 = 0
-    for (var i=0; i&lt;sf_star_count; i++)
-    if surface_exists(sf_star[i]) {
-        star_y[i] = (star_y[i] + 0.75 / (1 + 1.5*i)) mod view_hview[0]
-        draw_surface(sf_star[i], 0, star_y[i] - view_hview[0])
-        draw_surface(sf_star[i], 0, star_y[i])
+    if counter mod 2 = 0 {
+        for (var i=0; i&lt;sf_star_count; i++)
+        if surface_exists(sf_star[i]) {
+            star_y[i] = (star_y[i] + 0.75 / (1 + 1.5*i)) mod view_hview[0]
+            draw_surface(sf_star[i], 0, star_y[i] - view_hview[0])
+            draw_surface(sf_star[i], 0, star_y[i])
+        } else {
+            sc_field_create_star_surfaces()
+            break    
+        }
     }
 }
 
