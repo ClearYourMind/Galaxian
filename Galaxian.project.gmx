@@ -35,12 +35,13 @@
     <font>fonts\fn_default</font>
   </fonts>
   <objects name="objects">
-    <object>objects\ob_master</object>
+    <object>objects\ob_main</object>
+    <object>objects\ob_stars</object>
+    <object>objects\ob_game_master</object>
     <object>objects\ob_control</object>
     <object>objects\ob_sensor_control</object>
     <object>objects\ob_part_master</object>
-    <object>objects\ob_stars</object>
-    <object>objects\ob_gui</object>
+    <object>objects\ob_game_gui</object>
     <object>objects\ob_ship</object>
     <object>objects\ob_field</object>
     <object>objects\ob_shot</object>
@@ -60,8 +61,10 @@
     </objects>
     <object>objects\ob_explosion_bug</object>
     <object>objects\ob_particle</object>
+    <object>objects\ob_start_ui</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_start</room>
     <room>rooms\rm_game</room>
   </rooms>
   <help>

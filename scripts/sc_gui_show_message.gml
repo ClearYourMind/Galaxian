@@ -9,7 +9,7 @@ if argument_count > 1
 if argument_count > 2
     _disappear_delay = argument[2]
 
-with ob_gui {
+with ob_game_gui {
     str_message = argument[0]
     if _delay > 0 {
         alarm[0] = _delay
