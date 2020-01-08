@@ -2,7 +2,7 @@
 <object>
   <spriteName>sp_bug1</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -32,26 +32,6 @@ speed = offset_speed
 offset_max = max_x - field_w * field_step_x
 //offset_max = view_wview[0] - view_wview[1]
 offset_min = 0
-
-
-// stars
-stars_max = 32
-stars = array_create(stars_max)
-for (var i=0; i&lt;stars_max; i++) {
-    stars[i] = array_create(2)
-    var star = stars[i];
-    star[@ 0] = random(view_wview[0])
-    star[@ 1] = random(view_hview[0])
-}
-
-sf_star_count = 4
-star_y = array_create(sf_star_count)
-sf_star = array_create(sf_star_count)
-
-for (var i=0; i&lt;sf_star_count; i++) 
-    sf_star[i] = surface_create(view_wview[0], view_hview[0])
-
-sc_field_create_star_surfaces()
 
 image_speed = 0.05
 
@@ -233,46 +213,6 @@ with ob_shot_friendly {
     }
     
 }
-
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// stars
-
-if view_current = 2 {
-    if counter mod 2 = 0 {
-        for (var i=0; i&lt;sf_star_count; i++)
-        if surface_exists(sf_star[i]) {
-            star_y[i] = (star_y[i] + 0.75 / (1 + 1.5*i)) mod view_hview[0]
-            draw_surface(sf_star[i], 0, star_y[i] - view_hview[0])
-            draw_surface(sf_star[i], 0, star_y[i])
-        } else {
-            sc_field_create_star_surfaces()
-            break    
-        }
-    }
-}
-
 
 
 </string>

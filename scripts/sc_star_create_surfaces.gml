@@ -1,4 +1,4 @@
-/// sc_field_create_star_surfaces()
+/// sc_star_create_surfaces()
 
 for (var i=0; i<sf_star_count; i++) 
 if not surface_exists(sf_star[i])

@@ -12,6 +12,7 @@
     <sprite>sprites\sp_bug_classic_eyes</sprite>
     <sprite>sprites\sp_shot</sprite>
     <sprite>sprites\sp_explosion_bug</sprite>
+    <sprite>sprites\sp_logo</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -28,7 +29,7 @@
       <script>scripts\sc_gui_update.gml</script>
       <script>scripts\sc_gui_show_message.gml</script>
     </scripts>
-    <script>scripts\sc_field_create_star_surfaces.gml</script>
+    <script>scripts\sc_star_create_surfaces.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fn_default</font>
@@ -38,6 +39,7 @@
     <object>objects\ob_control</object>
     <object>objects\ob_sensor_control</object>
     <object>objects\ob_part_master</object>
+    <object>objects\ob_stars</object>
     <object>objects\ob_gui</object>
     <object>objects\ob_ship</object>
     <object>objects\ob_field</object>

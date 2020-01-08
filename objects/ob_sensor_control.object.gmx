@@ -51,10 +51,7 @@ enum fg {
 // gesture types
 enum gesture {
   none,
-  tap,
-  longtap,
-  swipe,
-  wrong
+  tap
 }
 
 ev_gesture_recognized = ev_user0
@@ -80,14 +77,11 @@ stick_distance = 0   // in percent 0..100
 stick_gesture_type = gesture.none   // tap, longtap
 stick_gesture_last_type = gesture.none   // tap, longtap
 
-stick_size = halfWidth*0.4  // radius
+stick_size = halfWidth*0.1  // radius
 stick_deadzone = 10 // %
 stick_active_distance = 50 // % 
 
 gesture_type = gesture.none
-gesture_direction = 0        // in degrees
-gesture_time = 10        // time before gesture is recognised, in steps
-gesture_deadzone = halfHeight*0.2    // radius, in pixels 
 
 gesture_last_type = gesture.none
 gesture_last_direction = 0
@@ -236,103 +230,6 @@ debug_stick_str = ''
         </arguments>
       </action>
     </event>
-    <event eventtype="2" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Detect long tap for stick
-
-var i=0
-repeat (multitouch_maxcount) {
-//  var _angle = 360 - point_direction(fg_oX[i], fg_oY[i], fg_X[i], fg_Y[i])
-  var _dist =        point_distance (fg_oX[i], fg_oY[i], fg_X[i], fg_Y[i])
-  
-  if fg_type[i] = fg.stick
-  if fg_press[i] {
-    // longtap
-    if stick_gesture_type = gesture.none {
-      if stick_distance &lt;= stick_deadzone {
-        stick_gesture_type = gesture.longtap
-        event_perform(ev_other, ev_stick_gesture_recognized)
-      } else {
-        stick_gesture_type = gesture.wrong  // you can't move stick around and then return it back, release and get "tap" gesture
-        event_perform(ev_other, ev_stick_gesture_recognized)
-      }        
-    }
-  
-  }
-
-  i++
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Detect long gesture
-
-var i=0
-repeat (multitouch_maxcount) {
-  var _angle = 360 - point_direction(fg_oX[i], fg_oY[i], fg_X[i], fg_Y[i])
-  var _dist =        point_distance (fg_oX[i], fg_oY[i], fg_X[i], fg_Y[i])
-  
-  if fg_type[i] = fg.gesture
-  if fg_press[i] {
-    // swipe
-    if gesture_type = gesture.none {
-      if _dist &gt; gesture_deadzone {
-        gesture_type = gesture.swipe
-        gesture_direction = _angle
-        event_perform(ev_other, ev_gesture_recognized)
-      }  
-    }
-    // longtap
-    if gesture_type = gesture.none {
-      if _dist &lt;= gesture_deadzone {
-        gesture_type = gesture.longtap
-        event_perform(ev_other, ev_gesture_recognized)
-      }  
-    }
-  
-  }
-
-  i++
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -365,12 +262,9 @@ repeat(multitouch_maxcount) {
       stick_direction = 0
       stick_distance = 0
       stick_gesture_type = gesture.none
-      alarm[1] = -1
     }
     if fg_type[i] = fg.gesture {
       gesture_type = gesture.none
-      gesture_direction = 0      
-      alarm[0] = -1  
     }
     fg_oX[i] = 0 
     fg_oY[i] = 0
@@ -385,57 +279,17 @@ repeat(multitouch_maxcount) {
     fg_oY[i] = device_mouse_raw_y(i)
     fg_press[i] = true
     // Определяем тип fg
-    if (fg_oX[i] &gt; area_x1[fg.stick]) and (fg_oX[i] &lt; area_x2[fg.stick]) {
+    if (fg_oX[i] &gt; area_x1[fg.stick]) and (fg_oX[i] &lt; area_x2[fg.stick]) 
       fg_type[i] = fg.stick
-      // check if fg.stick already exists
-      if fg_type[i] != fg.none
-        alarm[1] = gesture_time
-//      show_debug_message('finger pressed at STICK area ('+string(i)+')')
-    }
     if (fg_oX[i] &gt; area_x1[fg.gesture]) and (fg_oX[i] &lt; area_x2[fg.gesture]) {
       fg_type[i] = fg.gesture
-      // check if fg.gesture already exists
-      if fg_type[i] != fg.none
-        alarm[0] = gesture_time
-//      show_debug_message('finger pressed at GESTURE area ('+string(i)+')')
+      gesture_type = gesture.tap
+      event_perform(ev_other, ev_gesture_recognized)
     }
   }  
   
   if device_mouse_check_button_released(i, mb_left) {
     fg_press[i] = false
-    if fg_type[i] = fg.stick {
-      //tap
-      if stick_gesture_type = gesture.none {
-        if stick_distance &lt;= stick_deadzone {
-           stick_gesture_type = gesture.tap
-           event_perform(ev_other, ev_stick_gesture_recognized)
-        }
-      }
-      // longtap
-        // recognized in alarm[1]
-    }
-    if fg_type[i] = fg.gesture {
-      alarm[0] = -1
-      // распознавание жестов
-      // tap
-      if gesture_type = gesture.none {
-        if _dist &lt;= gesture_deadzone {
-          gesture_type = gesture.tap
-          event_perform(ev_other, ev_gesture_recognized)
-        }  
-      }
-      // longtap
-        // recognized in alarm[0]
-      // swipe
-      if gesture_type = gesture.none {
-        if _dist &gt; gesture_deadzone {
-          gesture_type = gesture.swipe
-          gesture_direction = _angle
-          event_perform(ev_other, ev_gesture_recognized)
-        }  
-      }
-    }
-    
   }  
   
   // process pressed fg's
@@ -482,7 +336,7 @@ repeat(multitouch_maxcount) {
 
 keys[k.Left ] = (stick_x &lt; -stick_active_distance)
 keys[k.Right] = (stick_x &gt;  stick_active_distance)
-keys[k.Fire ] = (gesture_type = gesture.tap)
+keys[k.Fire ] = (gesture_type != gesture.none)
 
 </string>
           </argument>
@@ -583,46 +437,6 @@ stick_gesture_last_type = stick_gesture_type
           </argument>
         </arguments>
       </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Debug
-
-switch stick_gesture_last_type {
-case gesture.none:
-  debug_stick_str = 'none'
-  break
-case gesture.tap:
-  debug_stick_str = 'tap'
-  break
-case gesture.longtap:
-  debug_stick_str = 'longtap'
-  break
-case gesture.wrong:
-  debug_stick_str = 'wrong'
-  break
-}
-
-// timeout before debug_stick_str = ''
-alarm[10] = 5 
-
-</string>
-          </argument>
-        </arguments>
-      </action>
     </event>
     <event eventtype="7" enumb="10">
       <action>
@@ -663,48 +477,8 @@ alarm[10] = 5
             <kind>1</kind>
             <string>/// Action
 gesture_last_type = gesture_type
-gesture_last_direction = gesture_direction
 
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Debug
-
-switch gesture_last_type {
-case gesture.none:
-  debug_gest_str = 'none'
-  break
-case gesture.tap:
-  debug_gest_str = 'tap'
-  break
-case gesture.longtap:
-  debug_gest_str = 'longtap'
-  break
-case gesture.swipe:
-  debug_gest_str = 'swipe'
-  break
-}
-
-// timeout before debug_gest_str = ''
-alarm[11] = 5 
 
 </string>
           </argument>
@@ -741,15 +515,8 @@ repeat (multitouch_maxcount) {
       draw_set_alpha(0.05)
       draw_circle(fg_oX[i], fg_oY[i], stick_size, false)
       draw_set_alpha(0.1)
-      draw_circle(fg_oX[i]+cos(degtorad(stick_direction))*d, fg_oY[i]+sin(degtorad(stick_direction))*d, stick_size*0.5, false)
+      draw_circle(fg_oX[i]+cos(degtorad(stick_direction))*d, fg_oY[i]+sin(degtorad(stick_direction))*d, stick_size, false)
 
-    }
-    if fg_type[i] = fg.gesture {
-      draw_set_alpha(0.05)
-      draw_circle(fg_oX[i], fg_oY[i], gesture_deadzone, false)
-      draw_set_alpha(0.1)
-      draw_line_width(fg_oX[i], fg_oY[i], fg_X[i], fg_Y[i], gesture_deadzone)
-      
     }
   }
   
@@ -775,75 +542,6 @@ draw_set_alpha(1)
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Debug Captions
-
-var _sc = 1
-// draw stick stats
-draw_text_transformed(area_x1[fg.stick]+10, 15, 'x    =  '+string(stick_x), _sc, _sc, 0)
-draw_text_transformed(area_x1[fg.stick]+10, 25, 'y    =  '+string(stick_y), _sc, _sc, 0)
-draw_text_transformed(area_x1[fg.stick]+10, 35, 'dist =  '+string(stick_distance),  _sc, _sc, 0)
-draw_text_transformed(area_x1[fg.stick]+10, 45, 'dir  =  '+string(stick_direction), _sc, _sc, 0)
-
-// draw gesture_last (debug_gest_str)
-var _s = ''
-switch gesture_type {
-case gesture.none:
-  _s = 'none';    break
-case gesture.tap:
-  _s = 'tap';     break
-case gesture.longtap:
-  _s = 'longtap'; break
-case gesture.swipe:
-  _s = 'swipe';   break
-}
-
-draw_text_transformed(area_x1[fg.gesture]+10, 15, 'type   =  '+_s, _sc, _sc, 0)
-draw_text_transformed(area_x1[fg.gesture]+10, 25, 'dir    =  '+string(gesture_direction), _sc, _sc, 0)
-
-draw_text_transformed(area_x1[fg.gesture]+10, 40, 'last_type =  '+debug_gest_str, _sc, _sc, 0)
-draw_text_transformed(area_x1[fg.gesture]+10, 50, 'last_dir  =  '+string(gesture_last_direction), _sc, _sc, 0)
-
-// draw stick_gesture_last (debug_stick_str)
-var _s = ''
-switch stick_gesture_type {
-case gesture.none:
-  _s = 'none';    break
-case gesture.tap:
-  _s = 'tap';     break
-case gesture.longtap:
-  _s = 'longtap'; break
-case gesture.wrong:
-  _s = 'wrong';   break
-}
-
-draw_text_transformed(area_x1[fg.stick]+10, 55, 'type      =  '+_s, _sc, _sc, 0)
-draw_text_transformed(area_x1[fg.stick]+10, 65, 'last_type =  '+debug_stick_str, _sc, _sc, 0)
-
-
-// draw GUI size info
-draw_text_transformed(halfWidth, halfHeight * 2 - 30, 'w = '+string(halfWidth * 2), _sc, _sc, 0)
-draw_text_transformed(halfWidth, halfHeight * 2 - 20, 'h = '+string(halfHeight * 2), _sc, _sc, 0)
-
-</string>
-          </argument>
-        </arguments>
       </action>
       <action>
         <libid>1</libid>
