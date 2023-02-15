@@ -13,6 +13,15 @@
     <sprite>sprites\sp_shot</sprite>
     <sprite>sprites\sp_explosion_bug</sprite>
     <sprite>sprites\sp_logo</sprite>
+    <sprites name="powerups">
+      <sprite>sprites\sp_powerup_sspeed</sprite>
+      <sprite>sprites\sp_powerup_dir</sprite>
+      <sprite>sprites\sp_powerup_add</sprite>
+      <sprite>sprites\sp_powerup_mspeed</sprite>
+      <sprite>sprites\sp_powerup_inv</sprite>
+      <sprite>sprites\sp_powerup_hard</sprite>
+      <sprite>sprites\sp_powerup_frame</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
