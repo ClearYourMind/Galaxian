@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///
+            <string>/// increase difficulty
 
 x = cell_x * field_step_x + ob_field.x + 4
 y = 4

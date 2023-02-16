@@ -102,7 +102,6 @@ case bug_ph.attack_process:
             if instance_exists(ob_ship)
                 image_angle = point_direction(x, y, ob_ship.x, ob_ship.y) + 270
         }
-
 break
 }
 

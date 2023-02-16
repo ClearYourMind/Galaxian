@@ -33,6 +33,8 @@ draw_set_font(fn_default)
 globalvar counter;
 counter = 0
 
+globalvar debug;
+debug = false
 
 </string>
           </argument>

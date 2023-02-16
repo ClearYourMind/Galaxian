@@ -36,6 +36,8 @@ x_message = x
 str_score = "00000"
 message_visible = false
 
+fps_array_size = 10
+fps_array = array_create(fps_array_size)
 
 </string>
           </argument>
@@ -126,6 +128,62 @@ x_message = (view_wview[0] - string_width(str_message)*0.8) * 0.5
         </arguments>
       </action>
     </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>debug</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// fps and debug
+
+fps_array[counter mod fps_array_size] = fps_real
+var _fps_avg = 0
+for (var i=0; i&lt;fps_array_size; i++)
+    _fps_avg += fps_array[i]
+_fps_avg = _fps_avg / fps_array_size
+
+draw_text(16,16, string(_fps_avg))
+
+    // debug
+draw_text(9, 980-13, string(instance_number(ob_bug_attack)) + "/" + string_format(stage_max_attack, 3, 2))
+draw_text(9, 980-7 , string(floor(stage_min_pause)))
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -155,17 +213,6 @@ if view_current = 2 {
     // message
     if message_visible
         draw_text_transformed(x_message, y, str_message, 0.8, 0.8, 0)
-        
-    // debug
-/*
-    draw_sprite(sp_bug1, 0, 5, 180-10)
-    draw_text_transformed(9, 180-13, string(instance_number(ob_bug_attack)) + "/" + string(floor(stage_max_attack)), 0.8, 0.8, 0)
-    draw_text_transformed(9, 180-7 , string(floor(stage_min_pause)), 0.8, 0.8, 0)
-    
-    draw_text_transformed(70, 180-19, "MIN=" + string(floor(ob_field.offset_min)), 0.8, 0.8, 0)
-    draw_text_transformed(70, 180-13, "MAX=" + string(floor(ob_field.offset_max)), 0.8, 0.8, 0)
-    draw_text_transformed(70, 180-7 , "X  =" + string(floor(ob_field.x)), 0.8, 0.8, 0)
-*/
 }
 
 </string>

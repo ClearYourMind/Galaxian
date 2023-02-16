@@ -71,7 +71,7 @@ field = ds_grid_create(field_w, field_h)
 field_objs = ds_grid_create(field_w, field_h)
 
 globalvar ship_y; 
-ship_y = ob_ship.y
+ship_y = 194 //ob_ship.y
 
 view_enabled[1] = true
 view_wview[1] = field_w * field_step_x
@@ -92,6 +92,7 @@ globalvar lives_added;
 globalvar score_for_live;
 lives_added = 0
 score_for_live = 250
+can_restart = false
 
 lives = 2
 stage = 1
@@ -155,13 +156,96 @@ ob_field.x = random(ob_field.offset_max)
             <kind>1</kind>
             <string>/// respawn
 
-if lives &lt;= 0
+if lives &lt;= 0 {
+    can_restart = true
     exit
+}
 
 if instance_number(ob_bug_attack) = 0
     instance_create(max_x*0.5, ship_y, ob_ship)
 else
     alarm[0] = 100
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// start respawn timer
+
+alarm[0] = 200
+sc_gui_show_message("READY", 90, 110)
+
+score = 0
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// toggle debug
+if keyboard_key = 192
+    debug = not debug
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// restart room after GAMEOVER
+
+if can_restart
+if keyboard_key = 32 
+    room_restart()
 
 </string>
           </argument>
