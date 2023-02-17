@@ -259,7 +259,7 @@ if instance_exists(ob_ship) {
             <string>/// DIE
 
 event_inherited()
-score += 75
+score += (75 * ob_game_master.score_mul)
 
 </string>
           </argument>

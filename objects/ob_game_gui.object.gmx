@@ -32,6 +32,7 @@ x = view_wview[0] * 0.5
 
 str_message = ""
 x_message = x
+str_mul = ""
 
 str_score = "00000"
 message_visible = false
@@ -39,6 +40,7 @@ message_visible = false
 fps_array_size = 10
 fps_array = array_create(fps_array_size)
 
+text_scale = 0.8
 </string>
           </argument>
         </arguments>
@@ -119,9 +121,12 @@ sc_gui_update()
             <kind>1</kind>
             <string>/// Update
 
-str_score = string_repeat("0", 5-string_length(string(score)) ) + string(score)
+str_score = string_repeat("0", 5-string_length(string(floor(score))) ) + string(floor(score))
 x_message = (view_wview[0] - string_width(str_message)*0.8) * 0.5
-
+if ob_game_master.score_mul &gt; 1.07
+    str_mul = "x" + string_format(ob_game_master.score_mul, 1, 1)
+else
+    str_mul = ""
 
 </string>
           </argument>
@@ -177,7 +182,7 @@ draw_text(16,16, string(_fps_avg))
 
     // debug
 draw_text(9, 980-13, string(instance_number(ob_bug_attack)) + "/" + string_format(stage_max_attack, 3, 2))
-draw_text(9, 980-7 , string(floor(stage_min_pause)))
+draw_text(9, 980-6 , string(floor(stage_min_pause)))
 
 </string>
           </argument>
@@ -205,14 +210,14 @@ draw_text(9, 980-7 , string(floor(stage_min_pause)))
 
 if view_current = 2 {
    
-    draw_text_transformed(40, 2, str_score, 0.8, 0.8, 0)
-
+    draw_text_transformed(10, 2, str_score, text_scale, text_scale, 0)
+    draw_text_transformed(50, 2, str_mul, text_scale, text_scale, 0)
     draw_sprite(sp_ship, 0, 90, 4)
-    draw_text_transformed(98, 2, "x"+string(lives), 0.8, 0.8, 0)
+    draw_text_transformed(95, 2, "x"+string(lives), text_scale, text_scale, 0)
     
     // message
     if message_visible
-        draw_text_transformed(x_message, y, str_message, 0.8, 0.8, 0)
+        draw_text_transformed(x_message, y, str_message, text_scale, text_scale, 0)
 }
 
 </string>

@@ -73,8 +73,6 @@ if lives&gt;0
 else
     sc_gui_show_message("GAME OVER", 90, 500)
 
-
-
 with instance_create(x, y, ob_explosion_bug) {
     image_xscale = 2
     image_yscale = 2
@@ -83,6 +81,11 @@ with instance_create(x, y, ob_explosion_bug) {
 
 with pr_emitter
     emit = false
+
+ob_game_master.deaths++
+ob_game_master.score_mul = 1
+sc_gui_update()
+
 
 </string>
           </argument>
@@ -198,25 +201,41 @@ pr_emitter.x = x-1
       </action>
       <action>
         <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
+        <id>601</id>
+        <kind>0</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
         <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
+        <exetype>1</exetype>
+        <functionname>action_execute_script</functionname>
         <codestring></codestring>
-        <whoName>self</whoName>
+        <whoName>other</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
           <argument>
-            <kind>1</kind>
-            <string>///
-with other
-    sc_bug_die()
-
-</string>
+            <kind>9</kind>
+            <script>sc_bug_die</script>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string></string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string></string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string></string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string></string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string></string>
           </argument>
         </arguments>
       </action>

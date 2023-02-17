@@ -94,8 +94,14 @@ lives_added = 0
 score_for_live = 250
 can_restart = false
 
+score_mul = 1
+
 lives = 2
 stage = 1
+
+// event watching
+misses = 0
+deaths = 0
 
 sc_field_fill()
 sc_field_update()

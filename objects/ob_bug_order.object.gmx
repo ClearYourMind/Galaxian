@@ -63,7 +63,7 @@ x = x - max_x*2 + ob_field.x
 y = y + ob_field.y
 
 event_inherited()
-score += 50
+score += (50 * ob_game_master.score_mul)
 
 </string>
           </argument>

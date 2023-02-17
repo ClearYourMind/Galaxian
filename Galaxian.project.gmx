@@ -59,8 +59,8 @@
       <object>objects\ob_field</object>
       <objects name="shots">
         <object>objects\ob_shot</object>
-        <object>objects\ob_shot_enemy</object>
         <object>objects\ob_shot_friendly</object>
+        <object>objects\ob_shot_enemy</object>
       </objects>
       <objects name="bugs">
         <object>objects\ob_bug</object>
